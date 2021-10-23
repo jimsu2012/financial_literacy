@@ -8,3 +8,7 @@ export const axiosInstance = axios.create({
 export const getToken = () => {
   return localStorage.getItem("token");
 };
+
+export const getHeaders = () => {
+  return { Authorization: `Token ${getToken()}` };
+};
