@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { getToken } from "../constants";
 
 const Header = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -38,10 +39,17 @@ const Header = () => {
     <AppBar position="static" color="transparent">
       <Toolbar>
         <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/account">Account</NavLink>
-          <NavLink to="/explore">Explore</NavLink>
-          <NavLink to="/habits">Habits</NavLink>
+          <List>
+            <NavLink to="/">Home</NavLink>
+            {getToken() ? (
+              <NavLink to="/account">Account</NavLink>
+            ) : (
+              <NavLink to="/login">Login</NavLink>
+            )}
+
+            <NavLink to="/explore">Explore</NavLink>
+            <NavLink to="/habits">Habits</NavLink>
+          </List>
         </Drawer>
         <IconButton
           onClick={() => setOpenDrawer(!openDrawer)}
