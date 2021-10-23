@@ -31,3 +31,11 @@ body {
   animation-delay: 2s;
   color: blue;
 }
+.show-lesson {
+  align-items: center;
+}
+.bookmark-lesson:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  animation-delay: 2s;
+}

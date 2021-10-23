@@ -1,12 +1,18 @@
 import { CardMedia, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import bookmarkedIcon from "../assets/bookmarked.svg";
 import bookmarkIcon from "../assets/bookmark.svg";
 import completedIcon from "../assets/completed.svg";
 function LessonExplorer(props) {
   const his = useHistory();
+  const [isLiked, setisLiked] = useState([]);
+  const toggleBookmark = (idx) => {
+    let likearr = [...isLiked];
+    likearr[idx + 1] = !likearr[idx + 1];
+    setisLiked(likearr);
+  };
   const { img, desc, id } = props.location.state.prop;
   const onOpenLessonPage = (idx, e) => {
     e.preventDefault();
@@ -73,9 +79,8 @@ function LessonExplorer(props) {
             <Stack
               direction="row"
               onClick={(e) => {
-                onOpenLessonPage(idx + 1, e);
+                onOpenLessonPage(idx, e);
               }}
-              className="show-lesson"
               id={id + "-" + (idx + 1)}
               sx={
                 lesson.completed
@@ -92,28 +97,29 @@ function LessonExplorer(props) {
                     }
               }
             >
-              {" "}
-              <Typography
-                sx={{
-                  fontSize: 40,
-                  letterSpacing: -2,
-                  fontWeight: "1000",
-                  fontFamily: "Raleway",
-                  margin: "0 6vw 7px 0",
-                }}
-              >
-                {idx}
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: 30,
-                  letterSpacing: -2,
-                  fontWeight: "normal",
-                  fontFamily: "Raleway",
-                }}
-              >
-                {lesson.title}
-              </Typography>
+              <Stack direction="row" className="show-lesson">
+                <Typography
+                  sx={{
+                    fontSize: 40,
+                    letterSpacing: -2,
+                    fontWeight: "1000",
+                    fontFamily: "Raleway",
+                    margin: "0 6vw 7px 0",
+                  }}
+                >
+                  {idx}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 30,
+                    letterSpacing: -2,
+                    fontWeight: "normal",
+                    fontFamily: "Raleway",
+                  }}
+                >
+                  {lesson.title}
+                </Typography>
+              </Stack>
               <Box
                 sx={{
                   marginLeft: "auto",
@@ -123,9 +129,25 @@ function LessonExplorer(props) {
                 }}
               >
                 {lesson.bookmarked == true ? (
-                  <img sx={{ width: "60px" }} src={bookmarkedIcon} />
+                  <img
+                    sx={{ width: "60px" }}
+                    src={bookmarkedIcon}
+                    className="bookmark-lesson"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleBookmark(idx);
+                    }}
+                  />
                 ) : (
-                  <img sx={{ width: "60px" }} src={bookmarkIcon} />
+                  <img
+                    sx={{ width: "60px" }}
+                    src={bookmarkIcon}
+                    className="bookmark-lesson"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleBookmark(idx);
+                    }}
+                  />
                 )}
                 {lesson.completed == true && (
                   <img sx={{ width: "66px" }} src={completedIcon} />
