@@ -20,6 +20,7 @@ const ExploreCard = (props) => {
         width: "40%",
         padding: 8,
         margin: 3,
+        maxWidth: "500px",
       }}
       onClick={(e) => {
         onOpenLesson(desc, e);
