@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import re_path, include
 from .views import index_view
 
 urlpatterns = [
-    path('', index_view)
+    re_path(r'^.*$', index_view)
 ]
