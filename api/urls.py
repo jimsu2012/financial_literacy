@@ -3,6 +3,8 @@ from django.urls import path, include
 from .views import (
     get_by_username,
     UserView,
+    ArticleGroupList,
+    ArticleGroupView,
     ArticleList,
     ArticleView,
     HabitList,
@@ -16,6 +18,8 @@ from .views import (
 urlpatterns = [
     path('retrieve_user_by_username/', get_by_username),
     path('users/<str:pk>/', UserView.as_view()),
+    path('article_groups/', ArticleGroupList.as_view()),
+    path('article_groups/<str:pk>/', ArticleGroupView.as_view()),
     path('articles/', ArticleList.as_view()),
     path('articles/<str:pk>/', ArticleView.as_view()),
     path('habits/', HabitList.as_view()),

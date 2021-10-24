@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Article, Habit, Goal, GoalDay
+from .models import ArticleGroup, Article, Habit, Goal, GoalDay
 
 User = get_user_model()
 
@@ -19,6 +19,29 @@ class UserSerializer(serializers.ModelSerializer):
             'habits_owned'
         )
 
+class ArticleGroupSerializer(serializers.ModelSerializer):
+    articles = serializers.PrimaryKeyRelatedField(many=True, default=[], queryset=Article.objects.all())
+
+    class Meta:
+        model = ArticleGroup
+        fields = (
+            'id',
+            'title',
+            'image_url',
+            'articles'
+        )
+    
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        owner = None
+        if request:
+            owner = request.user
+        return ArticleGroup.objects.create(
+            title=validated_data.get('title'),
+            image_url=validated_data.get('image_url'),
+            owner=owner
+        )
+
 class ArticleSerializer(serializers.ModelSerializer):
     habits = serializers.PrimaryKeyRelatedField(many=True, default=[], queryset=Habit.objects.all())
 
@@ -26,7 +49,9 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = (
             'id',
+            'group',
             'owner',
+            'image_url',
             'title',
             'content',
             'datetime_created',
@@ -42,6 +67,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         return Article.objects.create(
             title=validated_data.get('title'),
             content=validated_data.get('content', ''),
+            image_url=validated_data.get('image_url', ''),
             owner=owner
         )
 

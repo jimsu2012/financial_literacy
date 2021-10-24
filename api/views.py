@@ -6,6 +6,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view
 from .models import (
+    ArticleGroup,
     Article,
     Habit,
     Goal,
@@ -13,6 +14,7 @@ from .models import (
 )
 from .serializers import (
     UserSerializer,
+    ArticleGroupSerializer,
     ArticleSerializer,
     HabitSerializer,
     GoalSerializer,
@@ -45,6 +47,16 @@ class UserView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsOwnerUser,)
+
+class ArticleGroupList(generics.ListCreateAPIView):
+    queryset = ArticleGroup.objects.all()
+    serializer_class = ArticleGroupSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+
+class ArticleGroupView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ArticleGroup.objects.all()
+    serializer_class = ArticleGroupSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
 
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
