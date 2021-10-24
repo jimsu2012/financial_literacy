@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { axiosInstance } from "../constants";
+import { axiosInstance, setToken, setUserId } from "../constants";
 
 const LoginPage = () => {
   const handleSubmit = (event) => {
@@ -20,9 +20,24 @@ const LoginPage = () => {
       })
       .then((response) => {
         if (response.data && response.data.token) {
-          localStorage.setItem("token", response.data.token);
-          window.location = "/";
+          setToken(response.data.token);
         }
+      })
+      .catch((error) => {
+        console.error(error.message);
+      })
+      .then(() => {
+        axiosInstance
+          .post("/api/retrieve_user_by_username/", {
+            username: data.get("username"),
+          })
+          .then((response) => {
+            if (response.data && response.data.id) {
+              setUserId(response.data.id);
+              window.location = "/";
+            }
+          })
+          .catch((error) => console.error(error));
       })
       .catch((error) => {
         console.error(error.message);
