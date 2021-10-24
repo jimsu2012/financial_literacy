@@ -7,10 +7,10 @@ class User(AbstractUser):
 
 class Habit(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    owner = models.ForeignKey(User, related_name='habits_owned', on_delete=models.CASCADE, blank=True)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    amount_saved_per_day = models.DecimalField(max_digits=7, decimal_places=2, blank=True)
+    amount_saved_per_day = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
 
 class Article(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
