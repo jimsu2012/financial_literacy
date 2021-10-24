@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'financial_literacy.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(os.environ["DATABASE_URL"], conn_max_age=None)
+    'default': dj_database_url.parse(os.environ["DATABASE_URL"], conn_max_age=None)
 }
 
 
