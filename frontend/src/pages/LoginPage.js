@@ -27,6 +27,19 @@ const LoginPage = () => {
       .catch((error) => {
         console.error(error.message);
       });
+
+    axiosInstance
+      .post("/api/retrieve_user_by_username/", {
+        username: data.get("username"),
+      })
+      .then((response) => {
+        if (response.data && response.data.id) {
+          localStorage.setItem("id", response.data.id);
+        }
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
   return (
