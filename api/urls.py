@@ -21,7 +21,7 @@ urlpatterns = [
     path('habits/', HabitList.as_view()),
     path('habits/<str:pk>/', HabitView.as_view()),
     path('goals/', GoalList.as_view()),
-    path('goals/<str:pk>', GoalView.as_view()),
+    path('goals/<str:pk>/', GoalView.as_view()),
     path('goal_days/', GoalDayList.as_view()),
-    path('goal_days/<str:pk>', GoalDayView.as_view()),
+    path('goal_days/<str:pk>/', GoalDayView.as_view()),
 ]
