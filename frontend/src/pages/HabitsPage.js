@@ -3,16 +3,21 @@ import addHabit from "../assets/addHabit.svg";
 import { CardMedia, Stack, Tooltip, Typography, Zoom } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { axiosInstance } from "../constants";
+import { axiosInstance, getAxiosConfig } from "../constants";
 import HabitCard from "../components/HabitCard";
 const HabitsPage = () => {
   const [resHabitData, setresHabitData] = useState([]);
   const [habitsId, sethabitsId] = useState([]);
+  const [goalsIds, setgoalsIds] = useState([]);
+  const [goals, setgoals] = useState([]);
+  const [habGoal, sethabGoal] = useState([]);
   useEffect(() => {
     getHabitsId();
     const getHabits = async () => {
       const res = await Promise.all(
-        habitsId.map((id) => axiosInstance.get("/api/habits/" + id + "/"))
+        habitsId.map((id) =>
+          axiosInstance.get("/api/habits/" + id + "/", getAxiosConfig())
+        )
       );
       setresHabitData(res.map((r) => r.data));
     };
@@ -21,15 +26,32 @@ const HabitsPage = () => {
   useEffect(() => {
     const getHabits = async () => {
       const res = await Promise.all(
-        habitsId.map((id) => axiosInstance.get("/api/habits/" + id + "/"))
+        habitsId.map((id) =>
+          axiosInstance.get("/api/habits/" + id + "/", getAxiosConfig())
+        )
       );
       setresHabitData(res.map((r) => r.data));
+      setgoalsIds(res.map((r) => r.data.goals));
     };
     getHabits();
   }, [habitsId]);
+  useEffect(() => {
+    const getGoals = async () => {
+      for (let i = 0; i < goalsIds.length; i++) {
+        const res = await Promise.all(
+          goalsIds[i].map((goalid) =>
+            axiosInstance.get("/api/goals/" + goalid + "/", getAxiosConfig())
+          )
+        );
+        const arr = res.map((r) => r.data);
+        setgoals((pre) => [...pre, arr]);
+      }
+    };
+    getGoals();
+  }, [goalsIds]);
   const getHabitsId = () => {
     axiosInstance
-      .get("/api/users/" + localStorage.getItem("id") + "/")
+      .get("/api/users/" + localStorage.getItem("id") + "/", getAxiosConfig())
       .then((response) => {
         if (response && response.data.habits_owned) {
           sethabitsId(response.data.habits_owned);
@@ -41,7 +63,6 @@ const HabitsPage = () => {
   };
 
   const his = useHistory();
-  console.log(resHabitData);
   const onAddHabit = (e) => {
     e.preventDefault();
     his.push("/habits/add");
@@ -68,10 +89,14 @@ const HabitsPage = () => {
           </Tooltip>
         </CardMedia>
       </Stack>
-      {resHabitData.length > 0 ? (
+      {resHabitData.length == goals.length && goalsIds.length > 0 ? (
         <Stack sx={{ alignItems: "center" }}>
-          {resHabitData.map((habit) => (
-            <HabitCard data={habit} />
+          {resHabitData.map((habit, idx) => (
+            <HabitCard
+              data={habit}
+              goalarr={goalsIds[idx]}
+              goalinfo={goals[idx]}
+            />
           ))}
         </Stack>
       ) : (

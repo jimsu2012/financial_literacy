@@ -33,6 +33,7 @@ const LoginPage = () => {
           })
           .then((response) => {
             if (response.data && response.data.id) {
+              localStorage.setItem("id", response.data.id);
               setUserId(response.data.id);
               window.location = "/";
             }

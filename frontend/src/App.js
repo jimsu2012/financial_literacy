@@ -28,7 +28,7 @@ function App() {
 
         <ProtectedRoute path="/habits" exact component={HabitsPage} />
         <ProtectedRoute
-          path="/habits/update/:id"
+          path="/habits/goals/:id"
           exact
           component={HabitUpdatePage}
         />
