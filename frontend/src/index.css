@@ -30,6 +30,11 @@ body {
   cursor: pointer;
   animation-delay: 2s;
   color: blue;
+  background: #a341b040;
+  border-radius: 8px;
+  padding-right: 20px;
+  padding-left: 20px;
+  width: 55vw;
 }
 .show-lesson {
   align-items: center;
@@ -38,4 +43,10 @@ body {
   transform: scale(1.1);
   cursor: pointer;
   animation-delay: 2s;
+}
+
+.button-x:hover {
+  cursor: pointer;
+  filter: blur(0.5px);
+  transform: scale(1.03);
 }

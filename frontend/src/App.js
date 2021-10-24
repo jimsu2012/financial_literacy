@@ -1,4 +1,4 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import IndexPage from "./pages/IndexPage";
 import ExplorePage from "./pages/ExplorePage";
 import HabitsPage from "./pages/HabitsPage";
@@ -12,17 +12,19 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Route path="/" exact component={IndexPage} />
-      <Route path="/login" exact component={LoginPage} />
-      <Route path="/account" exact component={AccountPage} />
-      <Route path="/explore" exact component={ExplorePage} />
-      <Route
-        path="/lesson-explorer/:id/:name"
-        exact
-        component={LessonExplorer}
-      />
-      <Route path="/lesson/:id/:number" exact component={Lesson} />
-      <Route path="/habits" component={HabitsPage} />
+      <Switch>
+        <Route path="/" exact component={IndexPage} />
+        <Route path="/login" exact component={LoginPage} />
+        <Route path="/account" exact component={AccountPage} />
+        <Route path="/explore" exact component={ExplorePage} />
+        <Route
+          path="/lesson-explorer/:id/:name"
+          exact
+          component={LessonExplorer}
+        />
+        <Route path="/lesson/:id/:number" exact component={Lesson} />
+        <Route path="/habits" component={HabitsPage} />
+      </Switch>
     </BrowserRouter>
   );
 }

@@ -1,19 +1,30 @@
 import { Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ExploreCard from "../components/ExploreCard";
 import "../style/ExplorePage.css";
 import bag from "../assets/bag.png";
 import coin from "../assets/coin.png";
 import cc from "../assets/creditcard.png";
-import axios from "axios";
-import { rootShouldForwardProp } from "@mui/material/styles/styled";
+import { axiosInstance } from "../constants";
 const ExplorePage = () => {
-  const lessons = [
-    { id: 101, img: bag, desc: "The guide to saving in college" },
-    { id: 102, img: coin, desc: "Budgeting 101" },
-    { id: 103, img: cc, desc: "All about credit card" },
-  ];
+  const [resData, setresData] = useState([]);
+  useEffect(() => {
+    getGuides();
+  }, []);
+  const getGuides = () => {
+    axiosInstance
+      .get("/api/articles/")
+      .then((response) => {
+        if (response) {
+          setresData(response.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const lessons = resData;
   const lesson_arr = lessons.reduce((lesson_arr, k, idx) => {
     return (
       (idx % 2 == 0
@@ -27,12 +38,15 @@ const ExplorePage = () => {
         variant="h3"
         sx={{ fontWeight: "bolder", textAlign: "left", margin: "50px" }}
       >
-        Quick Lessons
+        Quick Guide
       </Typography>
       {lesson_arr.map((two_lesson) => (
-        <Stack direction="row" sx={{ justifyContent: "center" }}>
+        <Stack
+          direction={window.innerWidth > 900 ? "row" : "column"}
+          sx={{ justifyContent: "center" }}
+        >
           {two_lesson.map((lesson) => (
-            <ExploreCard img={lesson.img} desc={lesson.desc} id={lesson.id} />
+            <ExploreCard img={cc} desc={lesson.title} id={lesson.id} />
           ))}
         </Stack>
       ))}

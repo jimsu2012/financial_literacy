@@ -7,9 +7,9 @@ const ExploreCard = (props) => {
   const his = useHistory();
   const onOpenLesson = (desc, e) => {
     e.preventDefault();
-    his.push("/lesson-explorer/" + id + "/" + desc.split(" ").join("-"), {
-      prop: props,
-    });
+    console.log("ads");
+    window.location.href =
+      "/lesson-explorer/" + id + "/" + desc.split(" ").join("-");
   };
   return (
     <Box
