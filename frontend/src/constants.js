@@ -21,3 +21,11 @@ export const setUserId = (id) => {
 export const getUserId = () => {
   return localStorage.getItem("id");
 };
+
+export const getAxiosConfig = () => {
+  return {
+    headers: {
+      Authorization: `Token ${getToken()}`,
+    },
+  };
+};
