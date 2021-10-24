@@ -3,7 +3,7 @@ import addHabit from "../assets/addHabit.svg";
 import { CardMedia, Stack, Tooltip, Typography, Zoom } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { axiosInstance, getHeaders } from "../constants";
+import { axiosInstance } from "../constants";
 import HabitCard from "../components/HabitCard";
 const HabitsPage = () => {
   const [resHabitData, setresHabitData] = useState([]);
@@ -12,11 +12,7 @@ const HabitsPage = () => {
     getHabitsId();
     const getHabits = async () => {
       const res = await Promise.all(
-        habitsId.map((id) =>
-          axiosInstance.get("/api/habits/" + id + "/", {
-            headers: getHeaders(),
-          })
-        )
+        habitsId.map((id) => axiosInstance.get("/api/habits/" + id + "/"))
       );
       setresHabitData(res.map((r) => r.data));
     };
@@ -25,11 +21,7 @@ const HabitsPage = () => {
   useEffect(() => {
     const getHabits = async () => {
       const res = await Promise.all(
-        habitsId.map((id) =>
-          axiosInstance.get("/api/habits/" + id + "/", {
-            headers: getHeaders(),
-          })
-        )
+        habitsId.map((id) => axiosInstance.get("/api/habits/" + id + "/"))
       );
       setresHabitData(res.map((r) => r.data));
     };
@@ -37,9 +29,7 @@ const HabitsPage = () => {
   }, [habitsId]);
   const getHabitsId = () => {
     axiosInstance
-      .get("/api/users/" + localStorage.getItem("id") + "/", {
-        headers: getHeaders(),
-      })
+      .get("/api/users/" + localStorage.getItem("id") + "/")
       .then((response) => {
         if (response && response.data.habits_owned) {
           sethabitsId(response.data.habits_owned);
@@ -90,10 +80,5 @@ const HabitsPage = () => {
     </div>
   );
 };
-
-// button
-// background: linear-gradient(180deg, #BB3CE1 0%, #D946E4 100%);
-// ProgressEvent
-// background: #37CC69;
 
 export default HabitsPage;

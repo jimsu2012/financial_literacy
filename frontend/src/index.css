@@ -64,3 +64,11 @@ body {
   width: 400%;
   max-width: 50vw;
 }
+
+.on-hover-card:hover {
+  transform: scale(1.03);
+}
+.card-body {
+  color: black;
+  text-decoration: none !important;
+}
