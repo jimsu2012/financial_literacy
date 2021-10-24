@@ -26,11 +26,23 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = (
             'id',
+            'owner',
             'title',
             'content',
             'datetime_created',
             'users_liked',
             'habits'
+        )
+    
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        owner = None
+        if request:
+            owner = request.user
+        return Article.objects.create(
+            title=validated_data.get('title'),
+            content=validated_data.get('content', ''),
+            owner=owner
         )
 
 class HabitSerializer(serializers.ModelSerializer):
@@ -40,10 +52,23 @@ class HabitSerializer(serializers.ModelSerializer):
         model = Habit
         fields = (
             'id',
+            'owner',
             'title',
             'description',
             'amount_saved_per_day',
             'goals',
+        )
+    
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        owner = None
+        if request:
+            owner = request.user
+        return Habit.objects.create(
+            title=validated_data.get('title'),
+            description=validated_data.get('description', ''),
+            amount_saved_per_day=validated_data.get('amount_saved_per_day'),
+            owner=owner
         )
 
 class GoalSerializer(serializers.ModelSerializer):
