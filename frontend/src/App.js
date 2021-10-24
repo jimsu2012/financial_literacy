@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import IndexPage from "./pages/IndexPage";
 import ExplorePage from "./pages/ExplorePage";
 import HabitsPage from "./pages/HabitsPage";
@@ -7,23 +7,31 @@ import Lesson from "./pages/Lesson";
 import Header from "./components/Header";
 import AccountPage from "./pages/AccountPage";
 import LoginPage from "./pages/LoginPage";
+import HabitUpdatePage from "./pages/HabitUpdatePage";
+import ProtectedRoute from "./auth/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <Switch>
-        <Route path="/" exact component={IndexPage} />
         <Route path="/login" exact component={LoginPage} />
-        <Route path="/account" exact component={AccountPage} />
+        <Route path="/" exact component={IndexPage} />
+        <ProtectedRoute path="/account" exact component={AccountPage} />
         <Route path="/explore" exact component={ExplorePage} />
-        <Route
+        <ProtectedRoute
           path="/lesson-explorer/:id/:name"
           exact
           component={LessonExplorer}
         />
-        <Route path="/lesson/:id/:number" exact component={Lesson} />
-        <Route path="/habits" component={HabitsPage} />
+        <ProtectedRoute path="/lesson/:id/:number" exact component={Lesson} />
+
+        <ProtectedRoute path="/habits" exact component={HabitsPage} />
+        <ProtectedRoute
+          path="/habits/update/:id"
+          exact
+          component={HabitUpdatePage}
+        />
       </Switch>
     </BrowserRouter>
   );

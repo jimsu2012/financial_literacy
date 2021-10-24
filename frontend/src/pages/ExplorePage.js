@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ExploreCard from "../components/ExploreCard";
 import "../style/ExplorePage.css";
 import bag from "../assets/bag.png";
