@@ -5,10 +5,19 @@ export const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
 
+export const setToken = (token) => {
+  localStorage.setItem("token", token);
+  axiosInstance.defaults.headers.common["Authorization"] = `Token ${token}`;
+};
+
 export const getToken = () => {
   return localStorage.getItem("token");
 };
 
-export const getHeaders = () => {
-  return { Authorization: `Token ${getToken()}` };
+export const setUserId = (id) => {
+  localStorage.setItem("id", id);
+};
+
+export const getUserId = () => {
+  return localStorage.getItem("id");
 };
